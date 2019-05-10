@@ -1,0 +1,99 @@
+
+========================================
+ B - S P L I N E  D I R A C - F O C K   
+========================================
+
+name:   N                                                                               
+
+ATOM    N     
+TERM    jj    
+Z       7.
+
+core:   1s   2s
+conf:   2p(2.0)2p-(1.0)
+
+orbitals to optimize:  all                                                                             
+
+nconf =  5  - atomic states to optimize, see c-file
+eal   =  5  - weights of states are statistical
+
+
+Running parameters:
+
+scf_tol =  1.00E-10     - energy convergence tolerance
+orb_tol =  1.00E-07     - orbital convergence tolerance
+end_tol =  1.00E-07     - orbital tail cut-off
+max_it  =  75           - max. number of iterations
+
+
+B-spline parameters:
+
+ns   =  113             -  number of splines
+ks   =    9             -  order  of splines
+ksp  =    8             -  for large component
+ksq  =    9             -  for small component
+hi   =    0.250         -  initial point
+he   =    0.250         -  exponetial step size
+tmax =   50.538         -  maximum radius
+
+Spline integrals:
+
+kmin =    0             -  min. multipole index
+kmax =    3             -  max. multipole index
+ntype=    4             -  number of different integrals
+memory=    126.26       -  memory required (in Mb)
+
+
+Initial estimations for orbitals:
+
+  1s  - read from file N.bsw
+  2s  - read from file N.bsw
+  2p  - read from file N.bsw
+  2p- - read from file N.bsw
+
+
+Iteration      1
+----------------
+
+  nl         e(nl)          dpm         ns
+
+  1s     -15.67641086     4.37D-08      66
+  2s      -0.96478794     7.95D-08      74
+  2p      -0.50818409     7.75D-08      77
+  2p-     -0.50888171     7.90D-08      77
+
+Etotal =     -54.32772204
+
+Maximum orbital diff.     7.95D-08
+Energy difference         7.85D-16
+
+------------------------------------------------------------------------------------
+
+ATOM  N     
+
+core: 1s   2s
+
+conf: 2p(3)
+
+
+  nl         e(nl)          dmp         ns      <r>      max_r
+
+  1s     -15.67641086     4.37D-08      66     0.228    11.538
+  2s      -0.96478794     7.95D-08      74     1.325    19.538
+  2p      -0.50818409     7.75D-08      77     1.447    22.538
+  2p-     -0.50888171     7.90D-08      77     1.446    22.538
+
+Orbital convergence:      7.95D-08
+Energy  convergence:      7.85D-16
+
+Coulomb energy:         -54.327722044059932 au       -1478.274548666664941 eV
+
+Atomic state energies:
+
+2p(2)_2.2p-(1).3/2*      -54.430870327656955 au          0.00000 eV
+2p(1).2p-(2).3/2*        -54.327728918206411 au          2.80651 eV
+2p(2)_2.2p-(1).5/2*      -54.327719341815659 au          2.80677 eV
+2p(2)_0.2p-(1).1/2*      -54.258971076471560 au          4.67743 eV
+2p(3).3/2*               -54.258946423477113 au          4.67810 eV
+
+time:      1.42  sec

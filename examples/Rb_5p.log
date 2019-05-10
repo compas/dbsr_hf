@@ -1,0 +1,120 @@
+
+========================================
+ B - S P L I N E  D I R A C - F O C K   
+========================================
+
+name:   Rb_5p                                                                           
+
+ATOM    Rb    
+TERM    AV    
+Z      37.
+
+core:   1s   2s   2p-  2p   3s   3p-  3p   3d-  3d   4s   4p-  4p
+conf:   5p(1.0)
+
+orbitals to optimize:  5p                                                                              
+
+
+Running parameters:
+
+scf_tol =  1.00E-10     - energy convergence tolerance
+orb_tol =  1.00E-07     - orbital convergence tolerance
+end_tol =  1.00E-07     - orbital tail cut-off
+max_it  =  75           - max. number of iterations
+
+
+B-spline parameters:
+
+ns   =  113             -  number of splines
+ks   =    9             -  order  of splines
+ksp  =    8             -  for large component
+ksq  =    9             -  for small component
+hi   =    0.250         -  initial point
+he   =    0.250         -  exponetial step size
+tmax =   50.538         -  maximum radius
+
+Spline integrals:
+
+kmin =    0             -  min. multipole index
+kmax =    5             -  max. multipole index
+ntype=    4             -  number of different integrals
+memory=    189.38       -  memory required (in Mb)
+
+
+Initial estimations for orbitals:
+
+  1s  - read from file Rb.bsw
+  2s  - read from file Rb.bsw
+  2p- - read from file Rb.bsw
+  2p  - read from file Rb.bsw
+  3s  - read from file Rb.bsw
+  3p- - read from file Rb.bsw
+  3p  - read from file Rb.bsw
+  3d- - read from file Rb.bsw
+  3d  - read from file Rb.bsw
+  4s  - read from file Rb.bsw
+  4p- - read from file Rb.bsw
+  4p  - read from file Rb.bsw
+  5p  - hydrogenic orbital with screening 36.00
+
+
+Iteration      1
+----------------
+
+  nl         e(nl)          dpm         ns
+
+  5p      -0.09014626     2.18D+00     111
+
+Etotal =   -2979.75565212
+
+Maximum orbital diff.     2.18D+00
+Energy difference         2.41D-05
+
+
+Iteration      2
+----------------
+
+  nl         e(nl)          dpm         ns
+
+  5p      -0.09014626     0.00D+00     110
+
+Etotal =   -2979.75565212
+
+Maximum orbital diff.     0.00D+00
+Energy difference         0.00D+00
+
+------------------------------------------------------------------------------------
+
+ATOM  Rb    
+
+core: 1s   2s   2p-  2p   3s   3p-  3p   3d-  3d   4s   4p-  4p
+
+conf: 5p(1.0)
+
+
+  nl         e(nl)          dmp         ns      <r>      max_r
+
+  1s    -562.13287940     0.00D+00      59     0.040     4.538
+  2s     -77.50141943     0.00D+00      63     0.177     8.538
+  2p-    -70.01640669     0.00D+00      60     0.152     5.538
+  2p     -67.76413186     0.00D+00      61     0.156     6.538
+  3s     -12.55986969     0.00D+00      67     0.507    12.538
+  3p-     -9.81823304     0.00D+00      70     0.509    15.538
+  3p      -9.46482338     0.00D+00      70     0.519    15.538
+  3d-     -4.67579913     0.00D+00      70     0.521    15.538
+  3d      -4.61576786     0.00D+00      70     0.524    15.538
+  4s      -1.56626656     0.00D+00      77     1.472    22.538
+  4p-     -0.83227800     0.00D+00      82     1.703    27.538
+  4p      -0.79624318     0.00D+00      83     1.739    28.538
+  5p      -0.09014626     0.00D+00     110     7.645    50.538
+
+Orbital convergence:      0.00D+00
+Energy  convergence:      0.00D+00
+
+Coulomb energy:       -2979.755652121833009 au      -81082.762219532014569 eV
+
+Configuration energies:
+
+  5p ( 1)   -2979.755652121833009 au     -81082.762219532014569 eV
+
+time:      2.64  sec

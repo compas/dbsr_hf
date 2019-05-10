@@ -1,0 +1,24 @@
+                        CPC Librarian's README
+-------------------------------------------------------------------------------
+
+I compiled and ran the program on my 12.04 ubuntu machine using gfortran 4.6.3.
+
+In the "DBSR_HF" directory, I copied the "makefile.unix" to "makefile" and then made the following changes,
+
+FC = gfortran
+LIBDIR = <path to my lapack directory>
+
+LAPACK = $(LIBDIR)/liblapack.a
+BLAS   = $(LIBDIR)/librefblas.a
+
+
+I added "replace_iargc.f90" to the end of the "S =" list of programs so it would be included in the compilation.
+I commented out the "mv $(N) $(BINDIR)   # your choice" so that the executable would remain in the main directory.
+
+I then ran "make" which produced the executable, dbsr_hf.
+
+To test the program, in the examples directory, I ran,
+
+   ../dbsr_hf Rb mbreit=1
+
+This produced the expected results in the "Rb.log" file.

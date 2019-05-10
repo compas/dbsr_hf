@@ -1,0 +1,129 @@
+
+========================================
+ B - S P L I N E  D I R A C - F O C K   
+========================================
+
+name:   Li_092m1                                                                        
+
+ATOM    U     
+TERM    LS    
+Z      92.
+
+core:   1s
+conf:   2s(1.0)
+
+orbitals to optimize:  all                                                                             
+
+
+Running parameters:
+
+scf_tol =  1.00E-10     - energy convergence tolerance
+orb_tol =  1.00E-07     - orbital convergence tolerance
+end_tol =  1.00E-07     - orbital tail cut-off
+max_it  =  75           - max. number of iterations
+
+
+B-spline parameters:
+
+ns   =  113             -  number of splines
+ks   =    9             -  order  of splines
+ksp  =    8             -  for large component
+ksq  =    9             -  for small component
+hi   =    0.250         -  initial point
+he   =    0.250         -  exponetial step size
+tmax =   50.538         -  maximum radius
+
+Spline integrals:
+
+kmin =    0             -  min. multipole index
+kmax =    1             -  max. multipole index
+ntype=    4             -  number of different integrals
+memory=     63.13       -  memory required (in Mb)
+
+
+Initial estimations for orbitals:
+
+  1s  - hydrogenic orbital with screening  1.00
+  2s  - hydrogenic orbital with screening  2.00
+
+
+Iteration      1
+----------------
+
+  nl         e(nl)          dpm         ns
+
+  1s   -4760.96652124     8.09D-03      47
+  2s   -1209.71368895     2.00D+00      54
+
+Etotal =  -10846.66081651
+
+Maximum orbital diff.     2.00D+00
+Energy difference         6.46D-04
+
+
+Iteration      2
+----------------
+
+  nl         e(nl)          dpm         ns
+
+  1s   -4760.19238051     5.54D-05      47
+  2s   -1209.71404542     8.86D-05      50
+
+Etotal =  -10846.66093817
+
+Maximum orbital diff.     8.86D-05
+Energy difference         1.12D-08
+
+
+Iteration      3
+----------------
+
+  nl         e(nl)          dpm         ns
+
+  1s   -4760.19461456     3.52D-07      47
+  2s   -1209.71404306     5.77D-07      50
+
+Etotal =  -10846.66093760
+
+Maximum orbital diff.     5.77D-07
+Energy difference         5.20D-11
+
+
+Iteration      4
+----------------
+
+  nl         e(nl)          dpm         ns
+
+  1s   -4760.19460057     5.72D-08      47
+  2s   -1209.71404307     7.66D-08      50
+
+Etotal =  -10846.66093760
+
+Maximum orbital diff.     7.66D-08
+Energy difference         3.35D-13
+
+------------------------------------------------------------------------------------
+
+ATOM  U     
+
+core: 1s
+
+conf: 2s(1)
+
+
+  nl         e(nl)          dmp         ns      <r>      max_r
+
+  1s   -4760.19460057     5.72D-08      47     0.014     0.312
+  2s   -1209.71404307     7.66D-08      50     0.054     0.609
+
+Orbital convergence:      7.66D-08
+Energy  convergence:      3.35D-13
+
+Coulomb energy:      -10846.660937604610808 au     -295151.969070185499731 eV
+
+Breit:                   13.364538364755932           363.666739170965002
+Self-energy:             28.684698321383472           780.548524605240800
+Vacuum polarization      -7.503672554861111          -204.184840160982191
+Sum:                 -10812.115373473332511       -294211.938646570313722
+
+time:      1.53  sec

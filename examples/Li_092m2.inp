@@ -1,0 +1,83 @@
+Main atomic parameters:
+
+atom    =  U
+z       =  92.0000
+atw     = 238.0000
+rms     =   5.8571
+ion     =  Li
+core    =  1s
+conf    =  2s(1)
+varied  =  all
+term    =  LS
+eal     =  5
+
+Running parameters:
+
+mbreit  =  2                           - Breit interaction mode
+scf_tol =  1.00E-10                    - Energy convergence tolerance
+orb_tol =  1.00E-07                    - Orbital convergence tolerance
+end_tol =  1.00E-07                    - Orbital tail cut-off
+max_it  =  75                          - max. number of iterations
+ilzero  =  1                           - initial zero B-splines
+ibzero  =  2                           - minimum zero B-splines in the end
+rotate  =  0                           - use orbital rotation
+debug   =  0                           - additional debug output
+
+All parameters from input files can be replaced from command line as:
+
+dbsr_hf name par1=value par2=value par3=value ... 
+
+Name-driven file-names and key-words for their re-definition:
+
+name.inp      dat=...                  - input parameters                           
+name.log      log=...                  - run output and summry                      
+name.knot     knot=...                 - B-spline parameters                        
+name.bsw      inp=...                  - input wavefunctions if any                 
+name.bsw      out=...                  - output wavefunctions                       
+name.plot     plot=...                 - plot wavefunctions                         
+name.nl       nl=...                   - output w.f. for whole spectrum of outer electron
+name.w        w=...                    - output w.f. in GRASP format                
+name.conf     confs=..                 - input relativistic configurations if any   
+name.c        c=...                    - input jj atomic states if any              
+name.LS       LS=...                   - input LS configurations if any             
+
+Call dbsr_hf as:
+
+dbsr_hf name  -  name.inp is supposed to be created by user 
+dbsr_hf atom  -  choose the atom with given atomic symbol
+dbsr_hf an=.. -  choose the atom with atomic number an
+dbsr_hf name  an=...  ion=... -  choose needed ion for given an
+________________________________________________________________________________
+
+! Additional information for input parameters:
+
+! term=AV  - optimize the configuration given as conf=...
+!            or set of configurations given in the name.conf file
+! term=LS  - optimize all jj-configurations consistent with LS 
+!            configuration given as conf=... or set of configurations
+!            given in the name.LS file
+! term=jj  - optimize specific jj atomic states given in name.c file
+!            which is prepared by user or created from previous DBSR_HF run
+! eal      - indicates the mode for the state weights:
+!            =1 - equally weighted
+!            =5 - statistically weighed, default
+!            =9 - defined by user in .conf or .c files
+!            
+! varied   - possible options -> all, none, list of nl, =last, n=..., n>...
+!            
+! mbreit   - Breit interaction mode:
+!            =0 - no Breit interaction is included
+!            =1 - Breit interaction and QED correction is included 
+!                 as first-order correction 
+!            =2 - Breit interaction is included into orbital optimization
+!                 and QED as first order corrections
+!            
+! mode_SE  - self-energy correction mode:
+!            = 1 - hydrogen-based results
+!            = 2 - Welton concept
+!            = 3 - GRASP mode
+!            
+! out_w=1    - additional output of w.f. in GRASP format, name.w 
+! out_nl=1   - additional output of name.nl with w.f. for outer electron
+! out_plot=1 - additional output in name.plot
+________________________________________________________________________________
