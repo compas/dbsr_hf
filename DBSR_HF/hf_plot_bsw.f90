@@ -75,7 +75,7 @@
       Use dbsr_hf
  
       Implicit none
-      Integer, parameter :: ng = 540  ! max. number of points in GRASP 
+      Integer, parameter :: ng = 590  ! max. number of points in GRASP 
       Real(8) :: yp(ng),yq(ng),r(ng)
       Real(8) :: P0, gamma, r_max, RNT,HNT
       Integer :: i,j, io,m,np,nr
