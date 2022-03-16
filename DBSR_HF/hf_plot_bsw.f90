@@ -53,7 +53,7 @@
       if(out_plot.gt.0) then
       rewind(nup)
       write(nup,'(100(6x,a6))') 'r',(pel(i),qel(i),i=1,nbf)
-      i2=nbf; i1=max(1,i2-9)
+      i2=nbf; i1=1 !max(1,i2-9)
       Do i=1,m
        write(nup,'(100(1PE12.4))') r(i),(yp(i,io),yq(i,io),io=i1,i2)
       End do
