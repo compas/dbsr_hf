@@ -83,16 +83,16 @@
       
       if(out_w.eq.0) Return
 
-! ... radial points for output:
+! ... radial points for output (updated 2022, Jon Grumer):
 
       if(nuclear.eq.'point') then 
        RNT = EXP (-65.0d0/16.0d0) / z
        HNT = 0.5d0**4
-       np  = ng
+       np  = min(220,ng)
       else
-       RNT = 2.d-6
+       RNT = 2.d-6 / z
        HNT = 5.d-2
-       np  = min(ng,220)
+       np  = ng
       end if
 
       r_max = 0.d0
