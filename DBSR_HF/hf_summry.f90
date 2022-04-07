@@ -163,7 +163,7 @@
        if(mbreit.eq.0) then 
 
         write(log,'(a,F24.15,a,3x,F24.15,a)') configuration(1:ii),etotal,' au', &
-            etotal*au_eV,' eV'
+            etotal*au_eV-EE_tot(ipe(1))*au_eV,' eV'
 
        else  
 

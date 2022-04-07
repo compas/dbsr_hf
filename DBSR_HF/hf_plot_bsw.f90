@@ -53,7 +53,7 @@
       if(out_plot.gt.0) then
       rewind(nup)
       write(nup,'(100(6x,a6))') 'r',(pel(i),qel(i),i=1,nbf)
-      i2=nbf; i1=max(1,i2-9)
+      i2=nbf; i1=1 !max(1,i2-9)
       Do i=1,m
        write(nup,'(100(1PE12.4))') r(i),(yp(i,io),yq(i,io),io=i1,i2)
       End do
@@ -75,7 +75,7 @@
       Use dbsr_hf
  
       Implicit none
-      Integer, parameter :: ng = 540  ! max. number of points in GRASP 
+      Integer, parameter :: ng = 590  ! max. number of points in GRASP 
       Real(8) :: yp(ng),yq(ng),r(ng)
       Real(8) :: P0, gamma, r_max, RNT,HNT
       Integer :: i,j, io,m,np,nr
@@ -83,16 +83,16 @@
       
       if(out_w.eq.0) Return
 
-! ... radial points for output:
+! ... radial points for output (updated 2022, Jon Grumer):
 
       if(nuclear.eq.'point') then 
        RNT = EXP (-65.0d0/16.0d0) / z
        HNT = 0.5d0**4
-       np  = ng
+       np  = min(220,ng)
       else
-       RNT = 2.d-6
+       RNT = 2.d-6 / z
        HNT = 5.d-2
-       np  = min(ng,220)
+       np  = ng
       end if
 
       r_max = 0.d0
