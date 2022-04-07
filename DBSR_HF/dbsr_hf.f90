@@ -10,7 +10,7 @@
 !     case, the program allows also simultaineous calculation of
 !     several configurations in different optimization schemes.
 !     Another possibility - calculation whole Rydberg series in
-!     frozen-core approximation.   
+!     frozen-core approximation.
 !
 !     For short instructions, run dbsr_hf ? and look in name.inp.
 !----------------------------------------------------------------------
@@ -42,7 +42,7 @@
 
       t4=RRTC()
       if(debug.gt.0) &
-      write(scr,'(a,T30,f10.2,a)') 'Get_estimates:',t4-t3,'  sec' 
+      write(scr,'(a,T30,f10.2,a)') 'Get_estimates:',t4-t3,'  sec'
 
       t3=RRTC()
 
@@ -50,7 +50,7 @@
 
       t4=RRTC()
       if(debug.gt.0) &
-      write(scr,'(a,T30,f10.2,a)') 'Solve_HF:',t4-t3,'  sec' 
+      write(scr,'(a,T30,f10.2,a)') 'Solve_HF:',t4-t3,'  sec'
 
 ! ... output of results:
 
@@ -70,16 +70,16 @@
       Call Summry
       t4=RRTC()
       if(debug.gt.0) &
-      write(scr,'(a,T30,f10.2,a)') 'Summry:',t4-t3,'  sec' 
+      write(scr,'(a,T30,f10.2,a)') 'Summry:',t4-t3,'  sec'
 
       t2=RRTC()
-      write(scr,'(/a,f10.2,a)') 'time:',t2-t1,'  sec' 
-      write(log,'(/a,f10.2,a)') 'time:',t2-t1,'  sec' 
+      write(scr,'(/a,f10.2,a)') 'time:',t2-t1,'  sec'
+      write(log,'(/a,f10.2,a)') 'time:',t2-t1,'  sec'
 
       if(debug.gt.0) &
-      write(scr,'(a,T25,f10.2,a,i10)') 'Convol:',time_convol,'  sec',ic_convol 
+      write(scr,'(a,T25,f10.2,a,i10)') 'Convol:',time_convol,'  sec',ic_convol
       if(debug.gt.0) &
-      write(scr,'(a,T25,f10.2,a,i10)') 'Density:',time_density,'  sec',ic_density 
+      write(scr,'(a,T25,f10.2,a,i10)') 'Density:',time_density,'  sec',ic_density
 
       End ! Program DBSR_HF
 

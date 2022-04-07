@@ -1,13 +1,13 @@
-!====================================================================== 
+!======================================================================
       Subroutine State_energies
-!====================================================================== 
+!======================================================================
 ! ... calculation and output of the state energies obtained in CI procedure
 !----------------------------------------------------------------------
       Use DBSR_hf
       Use DF_orbitals
       Use hf_energy
       Use rk4_data
-      Use DBS_grid, only: ns,ks                      
+      Use DBS_grid, only: ns,ks
 
       Implicit none
 
@@ -40,7 +40,7 @@
       inquire(file=AF_cfg,number=i)
       if(i.gt.0) Close(i)
       open(nuc,file=AF_cfg)
-      rewind(nuc)      
+      rewind(nuc)
 
       nconf = Jdef_ncfg(nuc)
 
@@ -58,10 +58,10 @@
       inquire(file=AF_cfg,number=i)
       if(i.gt.0) Close(i)
       open(nuc,file=AF_cfg)
-      rewind(nuc)      
+      rewind(nuc)
 
       ic = 0;  njbl = 0; JTc = 0
-      Do 
+      Do
        read(nuc,'(a)') CONFIG
        if(CONFIG(6:6).ne.'(') Cycle
        read(nuc,'(a)') SHELLJ
@@ -86,14 +86,14 @@
         else
          njbl = njbl + 1; JTc(njbl)=ic
         end if
-       end if 
+       end if
        iset = 0
        Call labelc_jj (mlab,Labels(ic),iset, &
             no,nnc(1,ic),lnc(1,ic),knc(1,ic),jnc(1,ic),inc(1,ic),iqc(1,ic), &
             Jshellc(1,ic),Vshellc(1,ic),Jintrac(1,ic) )
-       ii=LEN_TRIM(Labels(ic)); if(ii.gt.ilabel) ilabel=ii 
+       ii=LEN_TRIM(Labels(ic)); if(ii.gt.ilabel) ilabel=ii
 
-       ! ... add core:  
+       ! ... add core:
        if(ncore.gt.0) then
         noc(ic) = no + ncore
         nnc(ncore+1:ncore+no,ic) =  nnc(1:no,ic)
@@ -111,8 +111,8 @@
         Jshellc(ncore+1:ncore+no,ic) =  Jshellc(1:no,ic)
         Vshellc(ncore+1:ncore+no,ic) =  Vshellc(1:no,ic)
         Jintrac(ncore+1:ncore+no,ic) =  Jintrac(1:no,ic)
-        Jshellc(1:ncore,ic)=0 
-        Vshellc(1:ncore,ic)=0 
+        Jshellc(1:ncore,ic)=0
+        Vshellc(1:ncore,ic)=0
         Jintrac(1:ncore,ic)=0
        end if
 
@@ -137,13 +137,13 @@
                           noc(jc),nnc(1,jc),lnc(1,jc),jnc(1,jc),iqc(1,jc), &
                           Jshellc(1,jc),Vshellc(1,jc),Jintrac(1,jc),  &
                           mcoef,ncoef,icoefs,coefs)
-       
+
        if(ncoef.eq.0.d0) Cycle;  ij = ic*ibi+jc
-       
+
        Do i = 1,ncoef; if(abs(coefs(i)).lt.eps_c) Cycle; met=2
 
         k = icoefs(1,i)
-        if(k.lt.0) then; met=1; k=0; end if         
+        if(k.lt.0) then; met=1; k=0; end if
         i1=icoefs(2,i); i1=ipc(i1,ic); k1=kbs(i1)
         i2=icoefs(3,i); i2=ipc(i2,ic); k2=kbs(i2)
         i3=icoefs(4,i); i3=ipc(i3,jc); k3=kbs(i3)
@@ -151,20 +151,20 @@
 
         Call Add_rk4_data(met*ibi+k,i1*ibi+i2,i3*ibi+i4,ij,coefs(i))
 
-        if(met.ne.2.or.mbreit.eq.0) Cycle 
+        if(met.ne.2.or.mbreit.eq.0) Cycle
 
         Do v = k-1,k+1
          if(SMU(k1,k2,k3,k4,k,v,S).eq.0.d0) Cycle
          S = S * coefs(i);  met = 3*ibi+v
-         Call Add_rk4_data(met,i1*ibi+i2,i3*ibi+i4,ij,S(1)) 
-         Call Add_rk4_data(met,i2*ibi+i1,i4*ibi+i3,ij,S(2)) 
-         Call Add_rk4_data(met,i3*ibi+i4,i1*ibi+i2,ij,S(3)) 
-         Call Add_rk4_data(met,i4*ibi+i3,i2*ibi+i1,ij,S(4)) 
-         Call Add_rk4_data(met,i1*ibi+i4,i3*ibi+i2,ij,S(5)) 
-         Call Add_rk4_data(met,i4*ibi+i1,i2*ibi+i3,ij,S(6)) 
-         Call Add_rk4_data(met,i3*ibi+i2,i1*ibi+i4,ij,S(7)) 
-         Call Add_rk4_data(met,i2*ibi+i3,i4*ibi+i1,ij,S(8)) 
-        End do                 
+         Call Add_rk4_data(met,i1*ibi+i2,i3*ibi+i4,ij,S(1))
+         Call Add_rk4_data(met,i2*ibi+i1,i4*ibi+i3,ij,S(2))
+         Call Add_rk4_data(met,i3*ibi+i4,i1*ibi+i2,ij,S(3))
+         Call Add_rk4_data(met,i4*ibi+i3,i2*ibi+i1,ij,S(4))
+         Call Add_rk4_data(met,i1*ibi+i4,i3*ibi+i2,ij,S(5))
+         Call Add_rk4_data(met,i4*ibi+i1,i2*ibi+i3,ij,S(6))
+         Call Add_rk4_data(met,i3*ibi+i2,i1*ibi+i4,ij,S(7))
+         Call Add_rk4_data(met,i2*ibi+i3,i4*ibi+i1,ij,S(8))
+        End do
        End do         ! over coeffs, i
       End do; End do ! over states ic,jc
 
@@ -174,10 +174,10 @@
       HC = 0.d0; HB = 0.d0; H_self = 0.d0; H_vacpol = 0.d0
 
       ! one-electron integrals
- 
+
       Do i=1,nrk;  met=kr1(i)/ibi; if(met.ne.1) Cycle
-       i1 = kr2(i)/ibi;  i2 = kr3(i)/ibi  
-       ic = kr4(i)/ibi;  jc = mod(kr4(i),ibi)  
+       i1 = kr2(i)/ibi;  i2 = kr3(i)/ibi
+       ic = kr4(i)/ibi;  jc = mod(kr4(i),ibi)
        if(i1.eq.i2) then
         HC(ic,jc) = HC(ic,jc) + crk(i)*ValueI(i1)
        else
@@ -188,9 +188,9 @@
       ! two-electron Coulomb integrals: B-spline integrals should be allocated !!!
 
       Do i=1,nrk;  met=kr1(i)/ibi; if(met.ne.2) Cycle; k = mod(kr1(i),ibi)
-       i1 = kr2(i)/ibi; i2 = mod(kr2(i),ibi) 
-       i3 = kr3(i)/ibi; i4 = mod(kr3(i),ibi) 
-       ic = kr4(i)/ibi; jc = mod(kr4(i),ibi)  
+       i1 = kr2(i)/ibi; i2 = mod(kr2(i),ibi)
+       i3 = kr3(i)/ibi; i4 = mod(kr3(i),ibi)
+       ic = kr4(i)/ibi; jc = mod(kr4(i),ibi)
 
        if(mod(k+lbs(i1)+lbs(i3),2).ne.0) Cycle
        if(mod(k+lbs(i2)+lbs(i4),2).ne.0) Cycle
@@ -203,25 +203,25 @@
          HC(ic,jc) = HC(ic,jc) + crk(i)*Value(i3,i4,k)
        else                                                   ! Rk integrals
          HC(ic,jc) = HC(ic,jc) + crk(i)*hf_rk(i1,i2,i3,i4,k)
-       end if   
+       end if
       End do
 
-      ! two-electron Breit integrals: 
+      ! two-electron Breit integrals:
 
       if(mbreit.gt.0) then
 
        C = 0.d0
        Call Alloc_DBS_integrals(ns,2*ks-1,0,kmax+1,1)
        Do i=1,nrk;  met=kr1(i)/ibi; if(met.ne.3) Cycle; k = mod(kr1(i),ibi)
-        ic = kr4(i)/ibi;  jc = kr4(i)/ibi  
+        ic = kr4(i)/ibi;  jc = kr4(i)/ibi
         if(C.eq.0.d0) then
-         i1 = kr2(i)/ibi; i2 = mod(kr2(i),ibi) 
-         i3 = kr3(i)/ibi; i4 = mod(kr3(i),ibi) 
+         i1 = kr2(i)/ibi; i2 = mod(kr2(i),ibi)
+         i3 = kr3(i)/ibi; i4 = mod(kr3(i),ibi)
          C =  sk_ppqq(i1,i2,i3,i4,k)
         elseif(kr1(i).ne.kr1(i-1).or.kr2(i).ne.kr2(i-1).or. &
                kr3(i).ne.kr3(i-1))  then
-         i1 = kr2(i)/ibi; i2 = mod(kr2(i),ibi) 
-         i3 = kr3(i)/ibi; i4 = mod(kr3(i),ibi) 
+         i1 = kr2(i)/ibi; i2 = mod(kr2(i),ibi)
+         i3 = kr3(i)/ibi; i4 = mod(kr3(i),ibi)
          C =  sk_ppqq(i1,i2,i3,i4,k)
         end if
         HB(ic,jc) = HB(ic,jc) + crk(i)*C
@@ -235,8 +235,8 @@
       end if
 
       Do i=1,nconf-1; Do j=i+1,nconf
-        HC(i,j) = HC(j,i);  HB(i,j) = HB(i,j)   
-      End do; End do                                                             
+        HC(i,j) = HC(j,i);  HB(i,j) = HB(i,j)
+      End do; End do
 
 !----------------------------------------------------------------------
 ! ... diagonalizing the Hamiltonian matrix:
@@ -263,7 +263,7 @@
         H(i,i) = H(i,i) + H_vacpol(i+i1-1)
        End do
 
-       Call LAP_DSYEV ('V','L',nc,nconf,H,eval,info)     
+       Call LAP_DSYEV ('V','L',nc,nconf,H,eval,info)
 
        ipe = 0
        Do k = 1,nc
@@ -307,23 +307,23 @@
       Do jc=1,nconf;  ic = ipe(jc); etotal = EE_tot(ic)
                       configuration = labels(index(ic)); ii = ilabel
 
-       if(mbreit.eq.0) then 
+       if(mbreit.eq.0) then
 
         write(log,'(a,F25.15,a,3x,F14.5,a)') configuration(1:ii),etotal,' au', &
             (etotal-E1)*au_eV,' eV'
 
-       else  
+       else
         SHELLJ = ' '
         if(jc.eq.1)  write(log,'(a,a16,3a13,a16)') &
                      SHELLJ(1:ii),'Coulomb','Breit','Self','Vacpol','Total'
- 
+
         write(log,'(a,f16.4,3F13.4,f16.5)') configuration(1:ii),EE_coul(ic)*au_eV, &
          EE_breit(ic)*au_eV,EE_self(ic)*au_eV,EE_vacpol(ic)*au_eV,(etotal-E1)*au_eV
        end if
-      
+
       End do ! over configurations, jc
- 
-      End Subroutine State_energies 
+
+      End Subroutine State_energies
 
 
 
@@ -353,7 +353,7 @@
 
        ! ... orbital
 
-       ii=in(i); if(iset.eq.0) ii=0      
+       ii=in(i); if(iset.eq.0) ii=0
        EL=ELi(nn(i),kn(i),ii)
        Do j = 1,5
         if(EL(j:j).eq.' ') Cycle
@@ -363,18 +363,18 @@
        ! ... number of electrons
 
        if(iq(i).gt.0.and.iq(i).le.9) then
-        write(Lab(k:k),'(a)') '('; k=k+1 
+        write(Lab(k:k),'(a)') '('; k=k+1
         write(Lab(k:k),'(i1)') iq(i); k=k+1
-        write(Lab(k:k),'(a)') ')'; k=k+1 
+        write(Lab(k:k),'(a)') ')'; k=k+1
        elseif(iq(i).gt.9) then
-        write(Lab(k:k),'(a)') '('; k=k+1 
+        write(Lab(k:k),'(a)') '('; k=k+1
         write(Lab(k:k+1),'(i2)') iq(i); k=k+2
-        write(Lab(k:k),'(a)') ')'; k=k+1 
+        write(Lab(k:k),'(a)') ')'; k=k+1
        end if
        Lab(k:k)='.'; k=k+1
 
        ! ... shell term
-      
+
        if(Jterm (jn(i),iq(i),-1,JT,JV,JW,JQ).gt.1) then
         k=k-1;  Lab(k:k)='_'; k=k+1
 
@@ -403,7 +403,7 @@
        ! ... intermediate term
 
        if(no.gt.1.and.i.eq.1) Cycle
-       kk = 0 
+       kk = 0
        if(i.gt.1) then
         if(iabs(Jshell(i)-Jintra(i-1)).lt.Jshell(i)+Jintra(i-1)) kk=1
        end if
@@ -440,7 +440,7 @@
 !======================================================================
       Subroutine LAP_DSYEV(job,UPLO,n,m,A,eval,info)
 !======================================================================
-!     Call LAPACK procedure DSYEV to obtain the eigenvalues (eval) and 
+!     Call LAPACK procedure DSYEV to obtain the eigenvalues (eval) and
 !     eigenvectors (A) for Real symmetric matrix A(n,n)
 !     job = 'V' or 'N' - compute or not the eigenvectors
 !     UPLO='U'  or 'L' -  used upper or lower triangle matrix

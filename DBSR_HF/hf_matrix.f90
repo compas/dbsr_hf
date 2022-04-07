@@ -1,5 +1,5 @@
 !=====================================================================
-      Subroutine hf_matrix(i,hfm) 
+      Subroutine hf_matrix(i,hfm)
 !=====================================================================
 !     Set up the hf_matrix "hfm" for orbital i
 !     Call(s):  a,b - angular coeficient routines
@@ -8,7 +8,7 @@
       Use DBS_grid,    only: ns,ks,ms
       Use DBS_dhl_pq,  only: dhl
       Use df_orbitals, only: kbs,nbf,qsum,p
-      
+
       Implicit none
       Integer, intent(in) :: i
       Real(8), intent(out) :: hfm(ms,ms)
@@ -19,7 +19,7 @@
 
       Real(8) :: t1,t2
       Real(8), external :: RRTC
-    
+
       t1 = RRTC()
 
 ! ... one-electron integral contribution
@@ -31,33 +31,33 @@
 ! ... this contribution is devided on 4 parts: pppp, pqpq, qpqp, qqqq
 ! ... and added separately
 
-      Do ii=1,2; Do jj=1,2   ! pppp, pqpq, qpqp, qqqq                                              
+      Do ii=1,2; Do jj=1,2   ! pppp, pqpq, qpqp, qqqq
 
       Do k=0,kmax
-                                    
+
       Call mrk_aaaa(k,ii,jj)
 
-! ... direct contribution    
+! ... direct contribution
 
        dd = 0.d0; met=0
-       Do j = 1,nbf   
-        c = a(i,j,k); if(c.eq.0.d0) cycle; if(i.eq.j) c=c+c      
+       Do j = 1,nbf
+        c = a(i,j,k); if(c.eq.0.d0) cycle; if(i.eq.j) c=c+c
         Call density(ns,ks,d,p(1,jj,j),p(1,jj,j),'s')
         dd = dd + c*d; met=met+1
        End do
        if(met.gt.0) Call Convol(ns,ks,d,dd,1,'s','s')
-       if(met.gt.0) Call Update_hs(ms,hfm,ii,ii,ns,ks,d,'s')          
+       if(met.gt.0) Call Update_hs(ms,hfm,ii,ii,ns,ks,d,'s')
 
-! ... exchange contribution 
+! ... exchange contribution
 
        xx = 0.d0; met=0
-       Do j = 1,nbf   
+       Do j = 1,nbf
         c = b(i,j,k); if (c.eq.0.d0) cycle
         Call density(ns,ks,x,p(1,ii,j),p(1,jj,j),'x')
         xx = xx + x*c; met=met+1
        End do
        if(met.gt.0) Call Convol(ns,ks,x,xx,4,'s','s')
-       if(met.gt.0) Call Update_hs(ms,hfm,ii,jj,ns,ks,x,'x')          
+       if(met.gt.0) Call Update_hs(ms,hfm,ii,jj,ns,ks,x,'x')
 
       End do ! over k
       End do; End do ! over itype
@@ -77,7 +77,7 @@
 !======================================================================
       Integer, intent(in) :: k,ii,jj
 
-      Select Case (10*ii+jj)       
+      Select Case (10*ii+jj)
        Case(11);  Call mrk_pppp(k)   !  (. p p .)          1 1
        Case(12);  Call mrk_pqpq(k)   !  (. q p .)  jj ii   1 2
        Case(21);  Call mrk_qpqp(k)   !  (. p q .)  jj ii   2 1
@@ -89,16 +89,16 @@
 
 
 !=====================================================================
-      Subroutine hf_matrix_breit(i,hfm) 
+      Subroutine hf_matrix_breit(i,hfm)
 !=====================================================================
 !     Set up the hf_matrix "hfm" for orbital i with Breit interaction
 !-----------------------------------------------------------------------
-      Use dbsr_hf                           
-      Use rk4_data      
+      Use dbsr_hf
+      Use rk4_data
       Use DBS_grid,    only: ns,ks,ms
       Use DBS_dhl_pq,  only: dhl
       Use df_orbitals, only: kbs,nbf,qsum,p
-      
+
       Implicit none
       Integer, intent(in) :: i
       Real(8), intent(out) :: hfm(ms,ms)
@@ -116,7 +116,7 @@
 
       t1 = RRTC()
 
-      Do itype=0,1                                          
+      Do itype=0,1
       Do k=0,kmax; kk = k + 1000*itype
        if(itype.eq.0)  Call msk_ppqq(k)
        if(itype.eq.1)  Call msk_pqqp(k)
@@ -126,22 +126,22 @@
 
 !---------------------------------------------------------------------------------------------
       Select case(itype)
-       Case(0)                                                 
-        Select case(int)         
+       Case(0)
+        Select case(int)
          Case(1);     ip1=1; ip2=2; jp1=1; jp2=2            !  I(ip1,jp1;ip2,jp1)   ( i . i .)
          Case(2);     ip1=1; ip2=2; jp1=1; jp2=2            !  I(jp1,ip1;jp2,ip2)   ( . i . i)
          Case(3);     ip1=1; ip2=2; jp1=2; jp2=1            !  I(ip1,jp2;jp1,ip2)   ( i . . i)
          Case(4);     ip1=2; ip2=1; jp1=1; jp2=2            !  I(jp1,ip2;ip1,jp2)   ( . i i .)
-        End Select                              
-       Case(1)               
-        Select case(int)                        
+        End Select
+       Case(1)
+        Select case(int)
          Case(1);     ip1=1; ip2=2; jp1=2; jp2=1            !  I(ip1,jp1;ip2,jp2)   ( i . i .)
          Case(2);     ip1=2; ip2=1; jp1=1; jp2=2            !  I(jp1,ip1;jp2,ip2)   ( . i . i)
          Case(3);     ip1=1; ip2=1; jp1=2; jp2=2            !  I(ip1,jp2;jp1,ip2)   ( i . . i)
          Case(4);     ip1=2; ip2=2; jp1=1; jp2=1            !  I(jp1,ip2;ip1,jp2)   ( . i i .)
-        End Select                                 
-      End Select                                   
-!----------------------------------------------------------------------------------------------                                                   
+        End Select
+      End Select
+!----------------------------------------------------------------------------------------------
 
       xx = 0.d0; met=0
       Do ik = 1,nrk;  if(kk.ne.kr1(ik)) Cycle
@@ -152,12 +152,12 @@
        end if
        if(jnt.ne.int) Cycle
 
-       Call Density(ns,ks,x,p(1,jp1,j),p(1,jp2,j),sym)   
+       Call Density(ns,ks,x,p(1,jp1,j),p(1,jp2,j),sym)
        xx = xx + crk(ik)*x; met=met+1
       End do
 
       if(met.gt.0) Call Convol_sk(ns,ks,x,xx,int,sym,sym)
-      if(met.gt.0) Call Update_hs(ms,hfm,ip1,ip2,ns,ks,x,sym)          
+      if(met.gt.0) Call Update_hs(ms,hfm,ip1,ip2,ns,ks,x,sym)
 
       End do ! over int
       End do; End do ! over k and itype

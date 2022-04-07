@@ -1,35 +1,35 @@
 !======================================================================
       Subroutine plot_bsw
 !======================================================================
-! ... Computes and tabular the radial orbitals in all gausian points, 
+! ... Computes and tabular the radial orbitals in all gausian points,
 ! ... plus border values, for further plots
 ! ... at small r,  P = P0 * r^gamma (1 + r ...)
 !----------------------------------------------------------------------
       Use zconst,      only: c_au
       Use DBS_nuclear, only: nuclear
       Use DBS_grid
-      Use DBS_gauss 
+      Use DBS_gauss
       Use df_orbitals
       Use dbsr_hf
- 
+
       Implicit none
       Real(8) :: yp(nv*ks+2,nbf),yq(nv*ks+2,nbf),r(nv*ks+2)
       Integer :: i,j,io,i1,i2,m,nr
       Character(6) :: pel(nbf), qel(nbf)
       Real(8) :: P0, gamma
- 
+
       if(out_w.eq.0.and.out_plot.eq.0) Return
-      AF_plt = trim(name)//BF_plt   
+      AF_plt = trim(name)//BF_plt
       Call Read_ipar(inp,'plot',AF_plt)
       Call Read_iarg('plot',AF_plt)
       open(nup,file=AF_plt)
- 
+
 ! ... radial points for output:
 
       m=1; r(1)=t(1)
       Do i=1,nv; Do j=1,ks; m=m+1; R(m)=gr(i,j); End do; End do
       m=m+1; R(m)=t(ns+1)
- 
+
       yp = 0.d0
       yq = 0.d0
       Do io=1,nbf
@@ -38,17 +38,17 @@
        Call Bvalue_bm(ksq,p(1,2,io),yq(1,io),qbsp)
        pel(io)='p'//ebs(io); Call Clean_a(pel(io))
        qel(io)='q'//ebs(io); Call Clean_a(qel(io))
- 
+
        gamma = lbs(io) + 1
        if(nuclear.eq.'point') gamma = sqrt (kbs(io)**2 - (z/c_au)**2)
        P0 = 0.d0
-       Do i = 1,ksp; j = i + 1 
+       Do i = 1,ksp; j = i + 1
         P0 = P0 + yp(j,io)/r(j)**gamma
        End do
        P0 = P0 / ksp; yp(1,io) = P0
       ! or simply ???
        yp(1,io) = yp(2,io)/r(2)**gamma
-      End do 
+      End do
 
       if(out_plot.gt.0) then
       rewind(nup)
@@ -70,22 +70,22 @@
       Use zconst,      only: c_au
       Use DBS_nuclear, only: nuclear
       Use DBS_grid
-      Use DBS_gauss 
+      Use DBS_gauss
       Use df_orbitals
       Use dbsr_hf
- 
+
       Implicit none
-      Integer, parameter :: ng = 590  ! max. number of points in GRASP 
+      Integer, parameter :: ng = 590  ! max. number of points in GRASP
       Real(8) :: yp(ng),yq(ng),r(ng)
       Real(8) :: P0, gamma, r_max, RNT,HNT
       Integer :: i,j, io,m,np,nr
-      Real(8), external :: bvalu2 
-      
+      Real(8), external :: bvalu2
+
       if(out_w.eq.0) Return
 
 ! ... radial points for output (updated 2022, Jon Grumer):
 
-      if(nuclear.eq.'point') then 
+      if(nuclear.eq.'point') then
        RNT = EXP (-65.0d0/16.0d0) / z
        HNT = 0.5d0**4
        np  = min(220,ng)
@@ -110,7 +110,7 @@
 
 ! ... file:
 
-      AF_rwf = trim(name)//BF_rwf   
+      AF_rwf = trim(name)//BF_rwf
       Call Read_ipar(inp,'w',AF_rwf)
       Call Read_iarg('w',AF_rwf)
       Open(nuw,file=AF_rwf,form='UNFORMATTED')
@@ -136,10 +136,10 @@
        P0 = yp(2)/r(2)**gamma
 
        write(nuw) nbs(io),kbs(io),e(io,io),nr
-       write(nuw) P0,yp(1:nr),yq(1:nr)  
+       write(nuw) P0,yp(1:nr),yq(1:nr)
        write(nuw) r(1:nr)
 
       End do
-  
+
       End Subroutine GRASP_wfn
 

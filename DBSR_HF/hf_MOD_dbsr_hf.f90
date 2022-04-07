@@ -10,11 +10,11 @@
 ! ... input/output files and units:
 
       Integer, parameter :: ma = 80   ! limit for file-name length
-      Character(ma) :: AF     
+      Character(ma) :: AF
 
       Integer :: inp = 5;   Character(ma) :: AF_dat  = 'name.inp'
                             Character(ma) :: BF_dat  = '.inp'
-      Integer :: log = 3;   Character(ma) :: AF_log  = 'name.log'                            
+      Integer :: log = 3;   Character(ma) :: AF_log  = 'name.log'
                             Character(ma) :: BF_log  = '.log'
       Integer :: scr = 0
       Integer :: nuw = 11;  Character(ma) :: AF_inp  = 'name.bsw'
@@ -41,7 +41,7 @@
       Character(ma) :: name = ' '
       Character(ma) :: knot = 'knot.dat'
 
-! ... atomic parameters: 
+! ... atomic parameters:
 
       Real(8) :: z = 0.d0
       Integer :: an = 0, ai = 0
@@ -74,16 +74,16 @@
       Integer :: debug  = 0
       Integer :: newton = 0
       Integer :: rotate = 0
-      
-! ... core 
+
+! ... core
 
       Integer,parameter :: mcore = 50
       Character(250) :: core=' '
       Integer :: ncore = 0
-      Integer :: n_core(mcore), k_core(mcore),l_core(mcore),j_core(mcore) 
+      Integer :: n_core(mcore), k_core(mcore),l_core(mcore),j_core(mcore)
       Character(5) :: e_core(mcore)
 
-! ... description of 1 conf.w.function:  
+! ... description of 1 conf.w.function:
 
       Integer, parameter :: msh = 31 ! max. number of shells behind core
       Integer :: no
@@ -93,7 +93,7 @@
 
       Character(9*msh+9) :: CONFIG, SHELLJ, INTRAJ
 
-! ... orbital variables that depend on nwf 
+! ... orbital variables that depend on nwf
 
       Integer :: nwf = 0
       Integer :: nit = 0
@@ -104,11 +104,11 @@
       Integer :: jmin = -1
       Integer :: jmax = -1
 
-! ... output of Breit corrections:  
+! ... output of Breit corrections:
 
-      Integer :: mbreit =  0      
-      Integer :: mode_SE =  3      
-      Integer :: mode_VP =  1      
+      Integer :: mbreit =  0
+      Integer :: mode_SE =  3
+      Integer :: mode_VP =  1
       Real(8) :: eps_c = 1.d-6
       Integer :: ibi = 2**16
 
@@ -121,7 +121,7 @@
       Integer :: out_w = 0     ! output in the GRASP format
       Integer :: out_plot = 0  ! output in table form
 
-! ... frequently called functions: (instead interface)  
+! ... frequently called functions: (instead interface)
 
       Integer, external :: Icheck_file
 

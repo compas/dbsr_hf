@@ -3711,7 +3711,7 @@ CONTAINS
          io = i
          Do i1=k,kk
           if(SUM(II(i1,k:kk)).eq.1) Cycle; isym1=i1; Exit
-         End do 		
+         End do
          Do i2=k,kk
           if(SUM(II(k:kk,i2)).eq.1) Cycle; isym2=i2; Exit
          End do
@@ -3720,7 +3720,7 @@ CONTAINS
          k1 = isym1+1
          k2 = isym2+1
         end if
-		
+
 	       if(idif.eq.0) Cycle
 
 ! ... second orbital:
@@ -3728,7 +3728,7 @@ CONTAINS
         jo = i
         Do i1=k1,kk
          if(SUM(II(i1,k:kk)).eq.1) Cycle; jsym1=i1; Exit
-        End do 		
+        End do
         Do i2=k2,kk
          if(SUM(II(k:kk,i2)).eq.1) Cycle; jsym2=i2; Exit
         End do

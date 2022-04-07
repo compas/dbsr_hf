@@ -1159,7 +1159,7 @@
       Subroutine Find_free_unit(nu)
 !======================================================================
 !     provide free unit to open new file
-!----------------------------------------------------------------------	
+!----------------------------------------------------------------------
       Implicit none
       Integer :: nu,i
       Logical :: connected
@@ -1765,7 +1765,7 @@
       E_dcwf = -(1.d0-E)*C*C
 
       End Function E_dcwf
-	
+
 
 !========================================================================
       SUBROUTINE DCME(n,kappa,z,ar1,ar2,am1,am2,am3)
@@ -1883,7 +1883,7 @@
                  two*g*(two*dk+p*E)*cp(ip) )
 
       End Subroutine  Exp_dcwf
-	
+
 
 
 
