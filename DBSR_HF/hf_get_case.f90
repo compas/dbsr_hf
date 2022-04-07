@@ -6,7 +6,7 @@
 !----------------------------------------------------------------------
       Use dbsr_hf
       Use df_orbitals
-      
+
       Implicit none
       Integer :: i,j
 
@@ -25,7 +25,7 @@
       ' B - S P L I N E  D I R A C - F O C K  ',&
       '======================================='
       write(scr,'(a,a)') 'name:  ',name
- 
+
       write(log,'(/a/a/a)') &
       '========================================',&
       ' B - S P L I N E  D I R A C - F O C K   ',&
@@ -34,7 +34,7 @@
 
 ! ... read input-data:
 
-      Call Read_data 
+      Call Read_data
 
 ! ... initialize Lagrange multipliers:
 
@@ -52,23 +52,23 @@
 !======================================================================
      Subroutine Check_name
 !======================================================================
-! .. read name of the case and check if name.inp exist;  
+! .. read name of the case and check if name.inp exist;
 ! .. if exist - return, otherwise check if name is a true atom symbol
-! .. and prepare file "name.inp"; 
-! .. atomic number, an=.., can be supplied instead atomic symbol 
+! .. and prepare file "name.inp";
+! .. atomic number, an=.., can be supplied instead atomic symbol
 !----------------------------------------------------------------------
      Use dbsr_hf
      Implicit none
      Real(8) :: a1,r1
 
      Call Read_name (name)
-     if(len_trim(name).ne.0) Return 
+     if(len_trim(name).ne.0) Return
 
      Call Read_aarg('atom',atom)
      Call Read_iarg('an',an)
      Call Read_aarg('ion',ion)
      Call Read_iarg('ai',ai)
- 
+
      if(len_trim(atom).gt.0) then
       Call Def_atom(an,atom,a1,r1,conf_AV,conf_LS)
      elseif(an.gt.0) then
@@ -88,8 +88,8 @@
      if(len_trim(ion).gt.0.and.an.gt.0.and.atom.ne.ion) &
         write(name,'(a,a,i3.3)')  trim(ion),'_',an
 
-     if(len_trim(name).eq.0) & 
-     Stop ' Please, indicate name of the case, e.g., atom symbol:  dbsr_hf Ne'  
+     if(len_trim(name).eq.0) &
+     Stop ' Please, indicate name of the case, e.g., atom symbol:  dbsr_hf Ne'
 
      End Subroutine Check_name
 
@@ -120,7 +120,7 @@
       Call Read_string(inp,'core',core)
       Call Read_apar(inp,'conf',configuration)
       Call Read_apar(inp,'term',term)
-      Call Read_string(inp,'varied',anit)     
+      Call Read_string(inp,'varied',anit)
 
       Call Read_rpar(inp,'scf_tol',scf_tol)
       Call Read_rpar(inp,'orb_tol',orb_tol)
@@ -141,7 +141,7 @@
       Call Read_apar(inp,'knot',knot)
 
 !-----------------------------------------------------------------------------------
-     
+
       Call Read_aarg('atom',atom)
       Call Read_iarg('an',an)
       Call Read_rarg('z',z)
@@ -151,10 +151,10 @@
       Call Read_rarg('z',z)
       Call Read_rarg('atw',atw)
       Call Read_rarg('rms',rms)
-      Call Read_aarg('core',core)      
+      Call Read_aarg('core',core)
       Call Read_aarg('conf',configuration)
       Call Read_aarg('term',term)
-      Call Read_aarg('varied',anit)     
+      Call Read_aarg('varied',anit)
 
       Call Read_rarg('scf_tol',scf_tol)
       Call Read_rarg('orb_tol',orb_tol)
@@ -212,15 +212,15 @@
       Call Def_core
 
       if(term.eq.'jj') then
-       Call Def_conf_jj 
+       Call Def_conf_jj
       elseif(term.eq.'LS') then
-       Call Def_conf_LS 
+       Call Def_conf_LS
        Call Def_conf
       else
        Call Def_conf
       end if
 
-! ... define generalized configuration: 
+! ... define generalized configuration:
 
       i = 1
       Do j=ncore+1,nwf
@@ -233,30 +233,30 @@
 
       Call Def_nit(anit)
 
-      write(log,'( /a,a)') 'ATOM    ',atom 
-      write(log,'(  a,a)') 'TERM    ',term 
+      write(log,'( /a,a)') 'ATOM    ',atom
+      write(log,'(  a,a)') 'TERM    ',term
       write(log,'(a,f5.0)')'Z    ',z
       if(LEN_TRIM(core).ne.0) &
-      write(log,'(/ a,a)') 'core:   ',trim(adjustl(core)) 
-      write(log,'(  a,a)') 'conf:   ',trim(adjustl(conf_AV)) 
+      write(log,'(/ a,a)') 'core:   ',trim(adjustl(core))
+      write(log,'(  a,a)') 'conf:   ',trim(adjustl(conf_AV))
       write(log,'(/ a,a)') 'orbitals to optimize:  ',anit
       if(LEN_TRIM(core).ne.0) &
-      write(scr,'(/a,a)') 'core:  ',trim(adjustl(core)) 
+      write(scr,'(/a,a)') 'core:  ',trim(adjustl(core))
       if(len_trim(conf_AV).gt.0) &
       write(scr,'(a,a/)') 'conf:  ', trim(adjustl(conf_AV))
 
       if(nconf.gt.1) then
       if(term.eq.'LS')  write(log,'(/a,i3,a)') 'nconf =',nconf,&
-	   '  - number of configurations to optimize, see conf-file'  
+	   '  - number of configurations to optimize, see conf-file'
       if(term.eq.'jj')  write(log,'(/a,i3,a)') 'nconf =',nconf,&
-	   '  - atomic states to optimize, see c-file'  
+	   '  - atomic states to optimize, see c-file'
 
       if(eal.eq.1)  write(log,'(a,i3,a)') 'eal   =',eal,&
-	   '  - weights of states are equal'  
+	   '  - weights of states are equal'
       if(eal.eq.5)  write(log,'(a,i3,a)') 'eal   =',eal,&
-	   '  - weights of states are statistical'  
+	   '  - weights of states are statistical'
       if(eal.eq.9)  write(log,'(a,i3,a)') 'eal   =',eal,&
-	   '  - weights of states are chosen by user'  
+	   '  - weights of states are chosen by user'
       end if
 
       write(log,'(//a/)') 'Running parameters:'
@@ -268,10 +268,10 @@
                 '- orbital tail cut-off'
       write(log,'(a,i3,T25,a)') 'max_it  = ',max_it, &
                 '- max. number of iterations'
-      write(log,'(a)') 
+      write(log,'(a)')
       if(rotate.gt.0) &
       write(log,'(a,i2,T25,a)') 'rotate  = ',rotate, &
-                '- use rotations of orbitals'  
+                '- use rotations of orbitals'
 
       Call Write_inp
 
@@ -282,14 +282,14 @@
 !======================================================================
       Subroutine Def_core
 !======================================================================
-!     This routine defines the closed shells which will be considered as 
-!     a core (from the string "core"). 
+!     This routine defines the closed shells which will be considered as
+!     a core (from the string "core").
 !     DBSR_HF has no special treatment of core orbitals, however,
 !     it is used for more compact notation of atomic configuration
-!     and for consistency with other GRASP and DBSR programs. 
+!     and for consistency with other GRASP and DBSR programs.
 !     INPUT:  string  "core"
 !     OUTPUT: ncore, e_core,n_core,k_core,l_core(i),j_core
-!                    all -> arrays (1:ncore) 
+!                    all -> arrays (1:ncore)
 !----------------------------------------------------------------------
       Use dbsr_hf
       Use atoms_par
@@ -318,7 +318,7 @@
          Stop 'Stop in def_core routine: unable to define core orbitals'
        End Select
       end if
-   
+
       Do i = 1,mcore
        read(core,*,IOSTAT=ii) e_core(1:i)
        if (ii /= 0) Exit
@@ -327,10 +327,10 @@
       Do i = 1,ncore
        e_core(i) = adjustl(e_core(i))
        Call EL_NLJK(e_core(i),n_core(i),k_core(i),l_core(i),j_core(i),ii)
-      End do 
+      End do
       core = ' '
       write(core,'(50a5)') (e_core(i),i=1,ncore)
-   
+
       End Subroutine Def_core
 
 
@@ -345,7 +345,7 @@
 
       Implicit none
       Integer :: i,j,start,i1,i2
-      Character(5), external :: Eli 
+      Character(5), external :: Eli
 
       Call Read_confs;  if(nconf.gt.0) Return
 
@@ -408,7 +408,7 @@
       Character :: line*200, EL*5
       Integer :: i,j,m, n,l,k,iset,iq,io, start, i1,i2, ii,jj,iw
       Integer, external :: Ifind_orb, ndets_jq, Ifind_position
-      Character(5), external :: Eli 
+      Character(5), external :: Eli
 
 ! ... check conf-file:
 
@@ -423,7 +423,7 @@
 
       Open(nuc,file=AF_conf)
       rewind(nuc)
-    1 read(nuc,'(a)',end=2) line  
+    1 read(nuc,'(a)',end=2) line
       if(INDEX(line,'(').eq.0) go to 1
       if(line(1:3).eq.'CSF') go to 1
       if(line(1:1).eq.'*') goto 2
@@ -492,7 +492,7 @@
 
       i = 0
       rewind(nuc)
-   10 read(nuc,'(a)',end=20) line  
+   10 read(nuc,'(a)',end=20) line
       if(INDEX(line,'(').eq.0) go to 10
       if(line(1:3).eq.'CSF') go to 10
       if(line(1:1).eq.'*') goto 20
@@ -500,7 +500,7 @@
       i = i + 1;  iw = 1
       Call Clean_a(line)
       start = 1
-      Do 
+      Do
        i1 = index(line(start:),'(')+start-1
        i2 = index(line(start:),')')+start-1
        if(i1.lt.start.or.i2.lt.start) Exit
@@ -554,7 +554,7 @@
       write(nuc,'(a)') 'Peel subshells:'
       write(nuc,'(20a5)') (ebs(i),i=ncore+1,nwf)
       write(nuc,'(a)') 'CSF(s):'
- 
+
       Do i = 1,nconf
 
       start = 1
@@ -564,7 +564,7 @@
        start = start + 9
       End do
 
-      j = len_trim(configuration) 
+      j = len_trim(configuration)
       if(j.le.72) then
        write(nuc,'(a,T73,F12.4)') configuration(1:j),weight(i)
       else
@@ -598,26 +598,26 @@
       iord = 0
 
       if(string(1:3)=='ALL' .or. string(1:3)=='all' .or. &
-         LEN_TRIM(string) == 0 ) then 
-       nit = nwf 
+         LEN_TRIM(string) == 0 ) then
+       nit = nwf
        Do i=1,nwf; iord(i)=i; End do
-      elseif(string(1:4)=='NONE' .or. string(1:4)=='none') then 
-       nit = 0 
-      elseif (INDEX(string,'n=') /= 0) then 
-       read(string(i+2:),*) n 
+      elseif(string(1:4)=='NONE' .or. string(1:4)=='none') then
+       nit = 0
+      elseif (INDEX(string,'n=') /= 0) then
+       read(string(i+2:),*) n
        k=0; Do i=1,nwf; if(nbs(i).ne.n) Cycle; k=k+1; iord(k)=i; End do
        nit = k
-      elseif (INDEX(string,'n>') /= 0) then 
-       read(string(i+2:),*) n 
+      elseif (INDEX(string,'n>') /= 0) then
+       read(string(i+2:),*) n
        k=0; Do i=1,nwf; if(nbs(i).le.n) Cycle; k=k+1; iord(k)=i; End do
        nit = k
-      elseif (INDEX(string,'=') /= 0) then 
-       i = INDEX(string,'=') 
-       read(string(i+1:),*) nit 
+      elseif (INDEX(string,'=') /= 0) then
+       i = INDEX(string,'=')
+       read(string(i+1:),*) nit
        k=0; Do i=nwf-nit+1,nwf; k=k+1; iord(k)=i; End do
       else
        start = 1; ip = 0
-       Do  
+       Do
         i = index(string(start:),',')
         if (i /= 0 .or. LEN_TRIM(string(start:)) /= 0) then
          read(string(start:),*) EL
@@ -625,13 +625,13 @@
          j = Ifind_orb(n,k,iset)
          if(j.gt.0) then; ip=ip+1; iord(ip)=j; end if
         end if
-        start = start + i 
+        start = start + i
         if(i == 0 .or.  LEN_TRIM(string(start:)) == 0) Exit
        End do
        nit = ip
       end if
 
-      Do j=1,nwf; i=iord(j) 
+      Do j=1,nwf; i=iord(j)
        if(i.eq.0) Cycle
        if(qsum(i).eq.0.d0) iord(j)=0
       End do
@@ -645,7 +645,7 @@
 !======================================================================
       Subroutine write_inp
 !======================================================================
-!     This routine prepare default input file 
+!     This routine prepare default input file
 !----------------------------------------------------------------------
       Use dbsr_hf
 
@@ -686,11 +686,11 @@
       write(inp,'(a,i3,T40,a)') 'max_it  = ',max_it, &
                 '- max. number of iterations'
       write(inp,'(a,i2,T40,a)') 'ilzero  = ',ilzero, &
-                '- initial zero B-splines' 
+                '- initial zero B-splines'
       write(inp,'(a,i2,T40,a)') 'ibzero  = ',ibzero, &
-                '- minimum zero B-splines in the end' 
+                '- minimum zero B-splines in the end'
       write(inp,'(a,i2,T40,a)') 'rotate  = ',rotate, &
-                '- use orbital rotation'  
+                '- use orbital rotation'
       write(inp,'(a,i2,T40,a)') 'debug   = ',debug,  &
                 '- additional debug output'
 
@@ -698,7 +698,7 @@
                             'can be replaced from command line as:'
       write(inp,'(/a)') 'dbsr_hf name par1=value par2=value par3=value ... '
 
-      write(inp,'(/a/)') 'Name-driven file-names and key-words for their re-definition:' 
+      write(inp,'(/a/)') 'Name-driven file-names and key-words for their re-definition:'
 
       write(inp,'(a,T15,a,T40,a)') 'name'//BF_dat, 'dat=...', '- input parameters'
       write(inp,'(a,T15,a,T40,a)') 'name'//BF_log, 'log=...', '- run output and summry'
@@ -717,25 +717,25 @@
       write(inp,'(a)') 'dbsr_hf name  -  name.inp is supposed to be created by user '
 
       write(inp,'(a)') 'dbsr_hf atom  -  choose the atom with given atomic symbol'
-     
+
       write(inp,'(a)') 'dbsr_hf an=.. -  choose the atom with atomic number an'
 
       write(inp,'(a)') 'dbsr_hf name  an=...  ion=... -  choose needed ion for given an'
 
-                           
-      write(inp,'(80("_"))')                     
+
+      write(inp,'(80("_"))')
       write(inp,'(/a/)') '! Additional information for input parameters:'
 
-      write(inp,'(a)') '! term=AV  - optimize the configuration given as conf=...' 
-      write(inp,'(a)') '!            or set of configurations given in the name.conf file'                  
-      write(inp,'(a)') '! term=LS  - optimize all jj-configurations consistent with LS ' 
-      write(inp,'(a)') '!            configuration given as conf=... or set of configurations'                  
-      write(inp,'(a)') '!            given in the name.LS file'                  
-      write(inp,'(a)') '! term=jj  - optimize specific jj atomic states given in name.c file' 
+      write(inp,'(a)') '! term=AV  - optimize the configuration given as conf=...'
+      write(inp,'(a)') '!            or set of configurations given in the name.conf file'
+      write(inp,'(a)') '! term=LS  - optimize all jj-configurations consistent with LS '
+      write(inp,'(a)') '!            configuration given as conf=... or set of configurations'
+      write(inp,'(a)') '!            given in the name.LS file'
+      write(inp,'(a)') '! term=jj  - optimize specific jj atomic states given in name.c file'
       write(inp,'(a)') '!            which is prepared by user or created from previous DBSR_HF run'
       write(inp,'(a)') '! eal      - indicates the mode for the state weights:'
-      write(inp,'(a)') '!            =1 - equally weighted' 
-      write(inp,'(a)') '!            =5 - statistically weighed, default' 
+      write(inp,'(a)') '!            =1 - equally weighted'
+      write(inp,'(a)') '!            =5 - statistically weighed, default'
       write(inp,'(a)') '!            =9 - defined by user in .conf or .c files'
       write(inp,'(a)') '!            '
       write(inp,'(a)') '! varied   - possible options -> all, none, list of nl, =last, n=..., n>...'
@@ -756,7 +756,7 @@
       write(inp,'(a)') '! out_nl=1   - additional output of name.nl with w.f. for outer electron'
       write(inp,'(a)') '! out_plot=1 - additional output in name.plot'
       write(inp,'(80("_"))')
-     
+
       rewind(inp)
 
       End Subroutine write_inp

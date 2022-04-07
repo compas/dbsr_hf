@@ -5,7 +5,7 @@
 !----------------------------------------------------------------------
       Use dbsr_hf
       Use DF_orbitals
-      Use DBS_nuclear      
+      Use DBS_nuclear
       Use DBS_grid
       Use DBS_gauss
 
@@ -38,15 +38,15 @@
 
       End Subroutine VP_energy
 
- 
-!======================================================================   
+
+!======================================================================
       Subroutine set_vacpol_2(vacpol)
-!======================================================================   
-! Sets up the second-order vacuum polarization potential using  
-! equations (1) and (4) of L W Fullerton and  G A Rinker, Jr,  
-! Phys Rev A  13 (1976) 1283-1287. 
+!======================================================================
+! Sets up the second-order vacuum polarization potential using
+! equations (1) and (4) of L W Fullerton and  G A Rinker, Jr,
+! Phys Rev A  13 (1976) 1283-1287.
 !
-! This routine is similar to vac2 from grasp92 [RCI92] which was 
+! This routine is similar to vac2 from grasp92 [RCI92] which was
 ! written by F A Parpia (see also RATIP)
 !
 ! Calls: vacpol_Kn
@@ -65,16 +65,16 @@
       epsi  = 1.0e-20_dp
       twocv = c_au + c_au
       vacpol = zero
-      
+
 ! ... Potential for a point nucleus, equation (1):
 !                   2 Z
-!     V_2(r) = -  -------- K_1(2cr) 
+!     V_2(r) = -  -------- K_1(2cr)
 !                 3 c pi r
 ! ... (this is also the asymptotic form for a finite nucleus)
 
       factor = -(two * atomic_number)/(three * pi * c_au)
       Do i=1,nv; Do m=1,ks
-       x = twocv * gr(i,m) 
+       x = twocv * gr(i,m)
        vacpol(i,m) = factor/gr(i,m) * vacpol_Kn(x,1)
        if (abs(vacpol(i,m)) < epsi) factor=0.d0
        if(factor.eq.0.d0) Exit
@@ -84,7 +84,7 @@
 
 ! ... Potential for a finite nucleus: equation (4)
 !                    2
-!     V_2(r) = - -------- INT[r',0,inf; r' ro(r') {K_0(2c|r-r'|)-K_0(2c|r+r'|} ] 
+!     V_2(r) = - -------- INT[r',0,inf; r' ro(r') {K_0(2c|r-r'|)-K_0(2c|r+r'|} ]
 !                3 c^2 r
 
       factor = -two / (three * c_au**2)
@@ -106,19 +106,19 @@
       End do; if(x.eq.0.d0) Exit; End do
 
       End Subroutine set_vacpol_2
-   
 
-!======================================================================   
+
+!======================================================================
       Subroutine set_vacpol_4(vacpol)
-!======================================================================   
-! Sets up the fourth-order vacuum polarization potential using 
-! equations (11) and (12) of L Wayne Fullerton and  G A Rinker, Jr,  
+!======================================================================
+! Sets up the fourth-order vacuum polarization potential using
+! equations (11) and (12) of L Wayne Fullerton and  G A Rinker, Jr,
 ! Phys  Rev  A 13 (1976) 1283-1287.
-! This routine is similar to vac4 from GRASP92 [RCI92] which was 
+! This routine is similar to vac4 from GRASP92 [RCI92] which was
 ! written by F A Parpia.
 !
 ! Calls: vacpol_Kn
-! 
+!
 ! Remark: this potential is added to existing one.
 !----------------------------------------------------------------------
       Use DBS_grid
@@ -130,20 +130,20 @@
       Real(kind=dp) :: epsi, factor, twocv, x, xi, xm, xk, xp
       Real(kind=dp) :: vacpol(nv,ks)
       Real(kind=dp), external :: vacpol_Lk
-      
+
       epsi  = 1.0e-20_dp
       twocv = c_au + c_au
 
 ! ... Potential for a point nucleus: equation (12)
 !                     Z
-!     V_4(r) = -  ----------  L_1(2cr) 
+!     V_4(r) = -  ----------  L_1(2cr)
 !                 c^2 pi^2 r
 ! ... (this is also the asymptotic form for a finite nucleus)
 
       factor = -atomic_number / (pi*c_au)**2
 
       Do i=1,nv; Do m=1,ks
-       x = twocv * gr(i,m) 
+       x = twocv * gr(i,m)
        vacpol(i,m) = vacpol(i,m) + factor/gr(i,m) * vacpol_Lk(x,1)
        if (abs(vacpol(i,m)) < epsi) factor=0.d0
        if(factor.eq.0.d0) Exit
@@ -153,7 +153,7 @@
 
 ! ... Potential for finite nucleus: equation (11)
 !                    1
-!     V_4(r) = - -------- INT[r',0,inf; r' V(r') {L_0(2c|r-r'|)-L_0(2c|r+r'|} ] 
+!     V_4(r) = - -------- INT[r',0,inf; r' V(r') {L_0(2c|r-r'|)-L_0(2c|r+r'|} ]
 !                c^3 pi r
 
       if (nuclear.eq.'point') Return
@@ -182,22 +182,22 @@
 !========================================================================
    function vacpol_Kn(x,n)                        result(Kn)
    !--------------------------------------------------------------------
-   ! Evaluates the K_N(X) functions using the analytic functions defined 
-   ! in tables 1 and 3 of Fullerton and Rinker, Phys  Rev  A 13 (1976) 
+   ! Evaluates the K_N(X) functions using the analytic functions defined
+   ! in tables 1 and 3 of Fullerton and Rinker, Phys  Rev  A 13 (1976)
    ! 1283-1287.
-   ! This routine is taken from RATIP and similar to ... from g 
-   ! [RCI92] which was written by F A Parpia; 
+   ! This routine is taken from RATIP and similar to ... from g
+   ! [RCI92] which was written by F A Parpia;
    ! it has been adapted in RATIP to the Fortran90/95 standard.
    !--------------------------------------------------------------------
       Use zconst
 
       Implicit none
-      
+
       integer, intent(in)       :: n
       real(kind=dp), intent(in) :: x
       real(kind=dp)             :: Kn
       !
-      real(kind=dp), dimension(10,4), parameter :: p = reshape(source =   & 
+      real(kind=dp), dimension(10,4), parameter :: p = reshape(source =   &
         (/  8.8357293375e-1_dp, -2.8259817381e-1_dp, -5.8904879578e-1_dp, &
             1.2500133434e-1_dp, -3.2729913852e-2_dp,  8.2888574511e-3_dp, &
            -1.0327765800e-5_dp,  6.3643668900e-5_dp,  0.0_dp,             &
@@ -263,8 +263,8 @@
       if (use_stop   .and.                               &
          (n < 0   .or.   n == 2   .or.   n == 4   .or.  n > 5)) then
          print *, "Attempt to calculate FUNK (X,N) for N other than "// &
-                  "0, 1, 3 and 5."  
-         stop     "vacpol_Kn(): program stop A."   
+                  "0, 1, 3 and 5."
+         stop     "vacpol_Kn(): program stop A."
       end if
       !
       select case(n-3)
@@ -278,7 +278,7 @@
          k  = n-1
          xn = one / (x**4)
       case default
-         stop "vacpol_Kn(): program stop B."   
+         stop "vacpol_Kn(): program stop B."
       end select
       if (x > one) goto 9
       !
@@ -301,7 +301,7 @@
       case(3)
          bsum = bsum * x2
       case default
-         stop "vacpol_Kn(): program stop C."   
+         stop "vacpol_Kn(): program stop C."
       end select
       sum = sum+bsum*log (x)/csum
       !
@@ -325,23 +325,23 @@
       !
    11 if (use_stop   .and.   n /= 0) then
          print *, "Attempt to calculate Kn (0,N) for N > 0."
-         stop     "vacpol_Kn(): program stop D."   
+         stop     "vacpol_Kn(): program stop D."
       end if
       !
       Kn  = p(1,1)
       !
    end function vacpol_Kn
-   
+
 
 
 !========================================================================
    function vacpol_Lk(x,k)                        result(Lk)
    !--------------------------------------------------------------------
-   ! Evaluates the LK(X) functions using the analytic functions defined  
-   ! in table 5  and equations (20) and  (21) of Fullerton and Rinker, 
-   ! Phys  Rev  A 13 (1976) 1283-1287. 
-   ! This routine is taken from RATIP and similar to ... from g 
-   ! [RCI92] which was written by F A Parpia; 
+   ! Evaluates the LK(X) functions using the analytic functions defined
+   ! in table 5  and equations (20) and  (21) of Fullerton and Rinker,
+   ! Phys  Rev  A 13 (1976) 1283-1287.
+   ! This routine is taken from RATIP and similar to ... from g
+   ! [RCI92] which was written by F A Parpia;
    ! it has been adapted in RATIP to the Fortran90/95 standard.
    !--------------------------------------------------------------------
       Use zconst
@@ -360,7 +360,7 @@
       !
       real(kind=dp), dimension(3,2), parameter :: g = reshape(source =      &
         (/   7.51198e-1_dp,  1.38889e-1_dp,  2.0886e-2_dp,                  &
-             1.37691e-1_dp, -4.16667e-1_dp, -9.7486e-2_dp                   &   
+             1.37691e-1_dp, -4.16667e-1_dp, -9.7486e-2_dp                   &
                                                            /), shape=(/3,2/))
       !
       real(kind=dp), dimension(2,2), parameter :: h = reshape(source =      &

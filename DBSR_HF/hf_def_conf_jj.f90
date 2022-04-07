@@ -11,7 +11,7 @@
       Integer :: i,j,ic,io,is,k,iset
       Integer, external :: Jdef_ncfg, Ifind_position, Ifind_orb, &
                            Iadd_cfg_jj
-      Character(5), external :: Eli 
+      Character(5), external :: Eli
 
 ! ... check c-file:
 
@@ -84,7 +84,7 @@
       i=Ifind_position(nuc,'CSF(s):')
 
       ic = 0
-      Do 
+      Do
        read(nuc,'(a)') CONFIG
 
        if(CONFIG(6:6).ne.'(') Cycle

@@ -1,8 +1,8 @@
 !======================================================================
       Subroutine Read_Grasp(nu)
 !======================================================================
-!     Generation double (p,q) B-spline representation for orbitals 
-!     given in GRASP package format, w-files 
+!     Generation double (p,q) B-spline representation for orbitals
+!     given in GRASP package format, w-files
 !----------------------------------------------------------------------
       Use DBS_grid
       Use DBS_gauss
@@ -11,7 +11,7 @@
 
       Implicit none
 
-      Real(8), allocatable :: R(:),PG(:),QG(:)     
+      Real(8), allocatable :: R(:),PG(:),QG(:)
       Real(8), allocatable :: b3(:),c3(:),d3(:),b4(:),c4(:),d4(:)
       Real(8) :: pr(nv,ks),qr(nv,ks),a(ns,ns),Pcoef(ns),Qcoef(ns)
       Character(6) string
@@ -33,7 +33,7 @@
       if(allocated(R)) Deallocate(R,PG,QG)
       Allocate(R(npts),PG(npts),QG(npts))
       READ(nu) p0,PG,QG
-      READ(nu) R 
+      READ(nu) R
 
 ! ... check if we need this orbital:
 
@@ -67,8 +67,8 @@
 
       pr = 0.d0; qr = 0.d0
       Do i=1,nv; Do j=1,ks
-       if(gr(i,j).lt.R(np)) pr(i,j)=SEVAL(np,gr(i,j),R,PG,b3,c3,d3)*grw(i,j)  
-       if(gr(i,j).lt.R(nq)) qr(i,j)=SEVAL(nq,gr(i,j),R,QG,b4,c4,d4)*grw(i,j)  
+       if(gr(i,j).lt.R(np)) pr(i,j)=SEVAL(np,gr(i,j),R,PG,b3,c3,d3)*grw(i,j)
+       if(gr(i,j).lt.R(nq)) qr(i,j)=SEVAL(nq,gr(i,j),R,QG,b4,c4,d4)*grw(i,j)
       End do; End do
 
 ! ... form the vector of inner products of the radial function and the
@@ -85,7 +85,7 @@
       End do; End do
 
 ! ... solve the system of equations for coef
-   
+
       a(1:nsp-1,1:nsp-1)=fpbs(2:nsp,2:nsp)
       Call gaussj (a,nsp-1,ns,Pcoef(2),1,ns)
       Pcoef(1)=0.d0
@@ -97,8 +97,8 @@
       p(:,1,ii) = Pcoef
       p(:,2,ii) = Qcoef
       Call Check_tails(ii)
-     
-! ... check the normalization 
+
+! ... check the normalization
 
       PN = sqrt(QUADR(p(1,1,ii),p(1,1,ii),0))
       p(:,:,ii)=p(:,:,ii)/PN
@@ -107,7 +107,7 @@
 
       pm = 0.d0
       Do j=2,np
-       PP = bvalu2(tp,p(1,1,ii),nsp,ksp,R(j),0) 
+       PP = bvalu2(tp,p(1,1,ii),nsp,ksp,R(j),0)
        d = abs(PP-PG(j));  if(d.gt.pm) pm = d
       End do
 

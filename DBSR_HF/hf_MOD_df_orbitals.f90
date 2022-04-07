@@ -1,7 +1,7 @@
 !=======================================================================
       Module df_orbitals
 !=======================================================================
-!     contains description of atomic orbitals 
+!     contains description of atomic orbitals
 !-----------------------------------------------------------------------
       Implicit none
 
@@ -26,7 +26,7 @@
 !=======================================================================
       Subroutine alloc_df_orbitals(n)
 !=======================================================================
-!     allocates, deallocates or reallocate arrays in module DF_orbiyals 
+!     allocates, deallocates or reallocate arrays in module DF_orbiyals
 !-----------------------------------------------------------------------
       Use df_orbitals
       Implicit none
@@ -40,13 +40,13 @@
                ebs(nbf),e(nbf,nbf),iord(nbf),qsum(nbf),dpm(nbf),clsd(nbf))
       nbs=0; kbs=0; ibs=0; mbs=0; lbs=0; jbs=0; iord=0
       qsum=0.d0; dpm=0.d0; clsd = .false.
- 
+
       End Subroutine alloc_DF_orbitals
 
 !=======================================================================
       Subroutine alloc_DF_radial(ns)
 !=======================================================================
-!     allocates or deallocates radial one-electron functions 
+!     allocates or deallocates radial one-electron functions
 !-----------------------------------------------------------------------
       Use DBS_grid, only: ks
       Use df_orbitals
@@ -62,7 +62,7 @@
       Integer Function Ifind_orb(n,k,iset)
 !=======================================================================
 !     find orbital (n,k,iset) in the list DF_orbitals
-!----------------------------------------------------------------------      
+!----------------------------------------------------------------------
       Use df_orbitals
       Implicit none
       Integer, intent(in) :: n,k,iset
@@ -94,7 +94,7 @@
 !=======================================================================
       Subroutine Put_pv(i,v)
 !=======================================================================
-!     put two-component vector "v" in p-array, location "i" 
+!     put two-component vector "v" in p-array, location "i"
 !-----------------------------------------------------------------------
       Use DBS_grid
       Use DF_orbitals

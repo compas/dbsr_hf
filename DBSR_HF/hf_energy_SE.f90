@@ -25,7 +25,7 @@
        ZR_nucl = 0.d0
        Do i=1,nv; Do j=1,ks
         if(gr(i,j).le.0.0219) ZR_nucl(i,j) = grw(i,j)
-       End do; End do 
+       End do; End do
       end if
 
       Call ZINTYm (nv,ks,ksp,ksp,pbsp,pbsp,ZR_nucl,ns,fp_nucl)
@@ -40,7 +40,7 @@
              xAy(ns,ks,fq_nucl,'f',Qcoef,Qcoef)
        S2 =  xAy(ns,ks,fp_nucl,'f',p(1,1,i),p(1,1,i)) +  &
              xAy(ns,ks,fq_nucl,'f',p(1,2,i),p(1,2,i))
-       ratio = S2/S1 
+       ratio = S2/S1
        if(debug.gt.0) &
        write(log,'(a,a,f15.5)') 'SE_ratio:  ',ebs(i),ratio
        Se = Se + ratio * relci_qed_F(nbs(i),kbs(i),z) * qsum(i) * &
@@ -57,7 +57,7 @@
 
    function relci_qed_F(n,kappa,Z)                             result(F)
    !--------------------------------------------------------------------
-   ! Estimates the function  F (Z*\alpha) by using an interpolation of 
+   ! Estimates the function  F (Z*\alpha) by using an interpolation of
    ! tabulated data from Mohr (1983) or Mohr and Kim (1992).
    !
    ! Calls: relci_qed_F_Mohr(), relci_qed_F_Mohr_Kim().
@@ -85,10 +85,10 @@
    !--------------------------------------------------------------------
    ! Estimates the function  F (Z*\alpha) by using a series expansion
    ! from S Klarsfeld and A Maquet, Physics Letters  43B (1973) 201,
-   ! Eqs (1) and (2) and the table of Bethe logarithms. The 
-   ! vacuum-polarization contribution in Eq (2) is omitted. 
+   ! Eqs (1) and (2) and the table of Bethe logarithms. The
+   ! vacuum-polarization contribution in Eq (2) is omitted.
    ! This procedure is adapted from RCI92 of GRASP92, written
-   ! by Farid A Parpia, to the Fortran 95 standard. 
+   ! by Farid A Parpia, to the Fortran 95 standard.
    !
    ! This procedure is not used in the current version.
    !--------------------------------------------------------------------
@@ -110,7 +110,7 @@
            -0.0004079_dp,   2.7324291_dp,  -0.0461552_dp,  -0.0085192_dp, &
            -0.0027091_dp,  -0.0010945_dp,  -0.0004997_dp,  -0.0002409_dp, &
             2.7302673_dp,  -0.0467413_dp,  -0.0087850_dp,  -0.0028591_dp, &
-           -0.0011904_dp,  -0.0005665_dp,  -0.0002904_dp,  -0.0001539_dp /) 
+           -0.0011904_dp,  -0.0005665_dp,  -0.0002904_dp,  -0.0001539_dp /)
       !
       real(kind=dp), parameter :: C401 = 11.0_dp/24.0_dp,                 &
                                C402 = 3.0_dp/8.0_dp, ovlfac = 4.0_dp/3.0_dp
@@ -156,14 +156,14 @@
    !
    function relci_qed_F_Mohr(n,kappa,Z)                        result(F)
    !--------------------------------------------------------------------
-   ! Computes the function  F (Z*\alpha) for the  1s  2s  2p-  2p  
-   ! symmetries by interpolating in, or extrapolating from, the table 
-   ! due to  P J Mohr. See  P J Mohr, At Data Nucl Data Tables 29 
-   ! (1983) 453. 
+   ! Computes the function  F (Z*\alpha) for the  1s  2s  2p-  2p
+   ! symmetries by interpolating in, or extrapolating from, the table
+   ! due to  P J Mohr. See  P J Mohr, At Data Nucl Data Tables 29
+   ! (1983) 453.
    ! This procedure is adapted from RCI92 of GRASP92, written
    ! by Farid A Parpia, to the Fortran 95 standard.
    !
-   ! Calls: 
+   ! Calls:
    !--------------------------------------------------------------------
       Use zconst
       Implicit none
@@ -235,12 +235,12 @@
    !
    function relci_qed_F_Mohr_Kim(n,kappa,Z)                    result(F)
    !--------------------------------------------------------------------
-   ! Computes the function  F (Z*\alpha) for the  1s  2s  2p-  2p  
-   ! symmetries by interpolating in, or extrapolating from, the table 
-   ! due to  P J Mohr and Y-K Kim. See P J Mohr and Y-K Kim, 
+   ! Computes the function  F (Z*\alpha) for the  1s  2s  2p-  2p
+   ! symmetries by interpolating in, or extrapolating from, the table
+   ! due to  P J Mohr and Y-K Kim. See P J Mohr and Y-K Kim,
    ! Phys. Rev. A45 (1992) 2723.
    !
-   ! Since no values are given for Z = 1, these values were estimated 
+   ! Since no values are given for Z = 1, these values were estimated
    ! below by (graphical) extrapolation.
    !
    ! Calls: interpolation_aitken().
@@ -400,14 +400,14 @@
 
    subroutine interpolation_aitken(xarr,yarr,narr,xval,yval,accy)
    !--------------------------------------------------------------------
-   ! This routine returns  yval  as the functions value of  xval 
-   ! by interpolating a pair of arrays xarr(1:narr), yarr(1:narr), 
-   ! that tabulate a  function.  Aitken's algorithm is used. See, for  
-   ! instance, F B Hildebrand, Introduction to Numerical Analysis,  
-   ! 2nd ed., McGraw-Hill, New York, NY, 1974. accy is the  desired  
-   ! accuracy of the estimate: a warning message is issued if this is 
-   ! not achieved.  A warning is also issued when the routine is 
-   ! extrapolating. 
+   ! This routine returns  yval  as the functions value of  xval
+   ! by interpolating a pair of arrays xarr(1:narr), yarr(1:narr),
+   ! that tabulate a  function.  Aitken's algorithm is used. See, for
+   ! instance, F B Hildebrand, Introduction to Numerical Analysis,
+   ! 2nd ed., McGraw-Hill, New York, NY, 1974. accy is the  desired
+   ! accuracy of the estimate: a warning message is issued if this is
+   ! not achieved.  A warning is also issued when the routine is
+   ! extrapolating.
    ! This procedures is adapted to Fortran 90/95 from the routine
    ! interp() of GRASP92 which originally was written by F A Parpia.
    !--------------------------------------------------------------------
@@ -526,7 +526,7 @@
          !
          function iloc (ind1,ind2)                           result(loc)
          !--------------------------------------------------------------
-         ! This internal function dispenses with the need for a 
+         ! This internal function dispenses with the need for a
          ! two-dimensional array for the interpolation. It replaces a
          ! statement function in the original code.
          !--------------------------------------------------------------

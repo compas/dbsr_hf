@@ -1,7 +1,7 @@
 !=====================================================================
       Subroutine solve_HF
 !=====================================================================
-!     Solve the DF equations in turns 
+!     Solve the DF equations in turns
 !---------------------------------------------------------------------
       Use DBS_grid
       Use dbsr_hf
@@ -14,7 +14,7 @@
 
       Real(8) :: t1,t2,t3,t4 , S1,S2
       Real(8), external :: RRTC
-    
+
       t1 = RRTC()
 
       et = etotal
@@ -36,7 +36,7 @@
 
         ! .. diagonalize the hf matrix
 
-        Call hf_eiv(i,hfm,v) 
+        Call hf_eiv(i,hfm,v)
 
 
         dpm(i)=maxval(abs(p(1:ns,1,i)-v(1:ns)))/maxval(abs(p(:,1,i)))
@@ -61,16 +61,16 @@
         ! .. remove tail zero
 
         if(debug.gt.0) then
-         Do j = 1,nwf 
-          if(i.eq.j) Cycle 
-          if(e(i,j) < 1.d-10) Cycle      
+         Do j = 1,nwf
+          if(i.eq.j) Cycle
+          if(e(i,j) < 1.d-10) Cycle
           if(kbs(i).ne.kbs(j)) Cycle
           write(log,'(a,a,a,f16.8)') &
            'Orthogonality ',ebs(i),ebs(j),QUADR(p(1,1,i),p(1,1,j),0)
          End do
         end if
 
-       End do ! over functions 
+       End do ! over functions
 
        Call Energy
        write(log,'(/a,F16.8)') 'Etotal = ',etotal
@@ -83,7 +83,7 @@
        write(log,'(A,T25,1PD10.2)') 'Energy difference     ', scf_diff
        write(scr,'(a,F20.12,i5,1P2E10.2)') &
         'etotal,it,E_diff,orb_diff = ',etotal,it,scf_diff,orb_diff
-       
+
        Call Boundary_conditions
 
        if ( orb_diff < orb_tol .and. scf_diff  < scf_tol ) Exit
@@ -91,11 +91,11 @@
       End do ! over iterations
 
       if(debug.gt.0) &
-      write(scr,'(a,T30,f10.2,a)') 'time_eiv:',time_hf_eiv,'  sec' 
+      write(scr,'(a,T30,f10.2,a)') 'time_eiv:',time_hf_eiv,'  sec'
       if(debug.gt.0) &
-      write(scr,'(a,T30,f10.2,a)') 'time_mat:',time_hf_matrix,'  sec' 
+      write(scr,'(a,T30,f10.2,a)') 'time_mat:',time_hf_matrix,'  sec'
       if(debug.gt.0) &
-      write(scr,'(a,T30,f10.2,a)') 'time_int:',time_update_int,'  sec' 
+      write(scr,'(a,T30,f10.2,a)') 'time_int:',time_update_int,'  sec'
 
       End Subroutine solve_HF
 
@@ -104,7 +104,7 @@
       Subroutine hf_eiv(i,hfm,v)
 !==================================================================
 !     Find the eigenvector v of hfm for the "positive-eneregy"
-!     eigenvalue m=n-l. Each orthogonality condition to the lower 
+!     eigenvalue m=n-l. Each orthogonality condition to the lower
 !     state reduces m - m - 1.  We supposed that nl orbitals are
 !     ordered to their n-values.
 !------------------------------------------------------------------
@@ -123,15 +123,15 @@
 
       Real(8) :: t1,t2
       Real(8), external :: RRTC
-    
+
       t1 = RRTC()
 
 ! ... apply orthogonality conditions for orbitals
 
       m = nbs(i)-lbs(i)
-      Do j = 1,nwf 
-       if(i.eq.j) Cycle 
-       if(e(i,j) < 1.d-10) Cycle     
+      Do j = 1,nwf
+       if(i.eq.j) Cycle
+       if(e(i,j) < 1.d-10) Cycle
        if(kbs(i).ne.kbs(j)) Cycle
        Call orthogonality(hfm,p(1,1,j))
        if(j.lt.i) m = m - 1
@@ -147,10 +147,10 @@
        k=0
        Do jp=1,ms
         if(iprm(jp,i).eq.0) Cycle
-        k=k+1; a(k)=hfm(jp,j); s(k)=fppqq(jp,j)  
+        k=k+1; a(k)=hfm(jp,j); s(k)=fppqq(jp,j)
        End do
        aa(1:k,kk)=a(1:k); ss(1:k,kk)=s(1:k)
-      End do 
+      End do
 
 ! ... evaluates the eigenvalues and eigenvectors (LAPACK routine):
 
@@ -166,15 +166,15 @@
 
 ! ... save all solutions if nl > 0:
 
-      if(out_nl.gt.0.and.i.eq.nwf) then 
-       nsol_nl = kk - mm + 1 
+      if(out_nl.gt.0.and.i.eq.nwf) then
+       nsol_nl = kk - mm + 1
        if(.not.allocated(p_nl)) Allocate(p_nl(ms,nsol_nl),e_nl(nsol_nl))
        p_nl = 0.d0; e_nl=0.d0
        Do m=mm,kk
         a(1:ms) = aa(1:ms,m);  v=0.d0; k=0
         Do j=1,ms
          if(iprm(j,i).eq.0) Cycle; k=k+1; v(j)=a(k)
-        End do 
+        End do
 
         if (v(ks) < 0.d0) v = -v
 
@@ -188,7 +188,7 @@
       a(1:ms) = aa(1:ms,mm);  v=0.d0; k=0
       Do j=1,ms
        if(iprm(j,i).eq.0) Cycle; k=k+1; v(j)=a(k)
-      End do 
+      End do
 
       ipos=maxloc(abs(v))
       if(v(ipos(1)).lt.0.d0) v=-v

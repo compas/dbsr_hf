@@ -151,7 +151,7 @@
        write(*,*) 'rrms is change to 2.0 because GETCPR routine from GRASP'
        write(*,*) 'is nor working for small values of rrms'
        write(*,'(70("_")/)')
-      end if  
+      end if
 
       atomic_number = z
       atomic_weight = atw
