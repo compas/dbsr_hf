@@ -224,6 +224,8 @@
 
       i = 1
       Do j=ncore+1,nwf
+       if(i+11 >= len(conf_AV)) Stop &
+        'Stop: Too many "Peel orbitals", move some to Core in header'
        write(conf_AV(i:),'(a5,a1,f4.1,a1)') &
         ebs(j),'(',qsum(j),')'
        i = i + 11
